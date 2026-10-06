@@ -112,7 +112,7 @@ function RecipeDetail() {
               </div>
             )}
           </section>
-        </section>
+        </div>
 
         <section className="mt-12">
           <h2 className="mb-4 text-lg font-bold">Công thức khác</h2>
