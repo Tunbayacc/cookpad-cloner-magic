@@ -124,7 +124,7 @@ export const recipes: Recipe[] = [
       "Đánh tan trứng với sữa tươi, sữa đặc và vanilla, không đánh bong bóng.",
       "Lọc hỗn hợp qua rây để bánh mịn màng.",
       "Đổ hỗn hợp vào khuôn đã có caramel.",
-      "Hấp cách thủy 30–35 phút ở lửa vừa, đ surface nắp khuôn bằng giấy nhôm.",
+      "Hấp cách thủy 30–35 phút ở lửa vừa, đậy nắp khuôn bằng giấy nhôm.",
       "Kiểm tra bằng tăm: xiên vào bánh, tăm rút ra sạch là chín.",
       "Để nguội rồi cho vào tủ lạnh ít nhất 2 giờ trước khi ăn.",
     ],
