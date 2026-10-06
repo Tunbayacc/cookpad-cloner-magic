@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { getRecipe, recipes } from "@/data/recipes";
 
 export const Route = createFileRoute("/mon/$slug")({
