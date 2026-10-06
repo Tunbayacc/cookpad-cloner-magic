@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import hero from "@/assets/hero.jpg";
+import { recipes } from "@/data/recipes";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,23 +18,17 @@ export const Route = createFileRoute("/")({
 });
 
 const tags = ["Thịt kho", "Canh chua", "Gà rán", "Bánh flan", "Cá kho tộ", "Bún bò", "Chay", "Ăn sáng"];
-const recipes = [
-  { t: "Thịt kho trứng nước dừa", a: "Mẹ Lan", m: "90 phút" },
-  { t: "Canh chua cá lóc", a: "Bếp của Hà", m: "40 phút" },
-  { t: "Gỏi cuốn tôm thịt", a: "Minh Anh", m: "30 phút" },
-  { t: "Bánh flan caramel", a: "Thu Trang", m: "60 phút" },
-  { t: "Cơm chiên dương châu", a: "Tuấn Nấu", m: "20 phút" },
-  { t: "Bún bò Huế", a: "Cô Ba", m: "3 giờ" },
-];
 
 function Index() {
   const [q, setQ] = useState("");
-  const list = recipes.filter((r) => r.t.toLowerCase().includes(q.toLowerCase()));
+  const list = recipes.filter((r) => r.title.toLowerCase().includes(q.toLowerCase()));
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-10 border-b bg-background/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
-          <span className="text-2xl font-extrabold text-primary">Bếp Nhà</span>
+          <Link to="/" className="text-2xl font-extrabold text-primary">
+            Bếp Nhà
+          </Link>
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -59,7 +54,11 @@ function Index() {
         <h2 className="mb-4 text-xl font-bold">Từ khóa thịnh hành</h2>
         <div className="mb-10 flex flex-wrap gap-2">
           {tags.map((t) => (
-            <button key={t} onClick={() => setQ(t)} className="rounded-full bg-secondary px-4 py-2 text-sm font-medium hover:bg-primary hover:text-primary-foreground">
+            <button
+              key={t}
+              onClick={() => setQ(t)}
+              className="rounded-full bg-secondary px-4 py-2 text-sm font-medium hover:bg-primary hover:text-primary-foreground"
+            >
               {t}
             </button>
           ))}
@@ -68,19 +67,28 @@ function Index() {
         <h2 className="mb-4 text-xl font-bold">Món mới nhất</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((r) => (
-            <article key={r.t} className="overflow-hidden rounded-xl border bg-card shadow-sm transition hover:shadow-md">
+            <Link
+              key={r.slug}
+              to="/mon/$slug"
+              params={{ slug: r.slug }}
+              className="overflow-hidden rounded-xl border bg-card shadow-sm transition hover:shadow-md"
+            >
               <div className="flex h-40 items-center justify-center bg-secondary text-5xl">🍲</div>
               <div className="p-4">
-                <h3 className="font-semibold">{r.t}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{r.a} · {r.m}</p>
+                <h3 className="font-semibold">{r.title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {r.author} · {r.time}
+                </p>
               </div>
-            </article>
+            </Link>
           ))}
           {list.length === 0 && <p className="text-muted-foreground">Không tìm thấy món nào.</p>}
         </div>
       </main>
 
-      <footer className="border-t py-6 text-center text-sm text-muted-foreground">© 2026 Bếp Nhà</footer>
+      <footer className="border-t py-6 text-center text-sm text-muted-foreground">
+        © 2026 Bếp Nhà
+      </footer>
     </div>
   );
 }
