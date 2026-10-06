@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GoiYRouteImport } from './routes/goi-y'
 import { Route as MonSlugRouteImport } from './routes/mon.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GoiYRoute = GoiYRouteImport.update({
+  id: '/goi-y',
+  path: '/goi-y',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MonSlugRoute = MonSlugRouteImport.update({
@@ -25,27 +31,31 @@ const MonSlugRoute = MonSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/goi-y': typeof GoiYRoute
   '/mon/$slug': typeof MonSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/goi-y': typeof GoiYRoute
   '/mon/$slug': typeof MonSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/goi-y': typeof GoiYRoute
   '/mon/$slug': typeof MonSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/mon/$slug'
+  fullPaths: '/' | '/goi-y' | '/mon/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/mon/$slug'
-  id: '__root__' | '/' | '/mon/$slug'
+  to: '/' | '/goi-y' | '/mon/$slug'
+  id: '__root__' | '/' | '/goi-y' | '/mon/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GoiYRoute: typeof GoiYRoute
   MonSlugRoute: typeof MonSlugRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/goi-y': {
+      id: '/goi-y'
+      path: '/goi-y'
+      fullPath: '/goi-y'
+      preLoaderRoute: typeof GoiYRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mon/$slug': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GoiYRoute: GoiYRoute,
   MonSlugRoute: MonSlugRoute,
 }
 export const routeTree = rootRouteImport
