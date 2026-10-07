@@ -10,7 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as GoiYRouteImport } from './routes/goi-y'
+import { Route as AuthenticatedVietMonRouteImport } from './routes/_authenticated/viet-mon'
+import { Route as CongThucIdRouteImport } from './routes/cong-thuc.$id'
 import { Route as MonSlugRouteImport } from './routes/mon.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -18,9 +22,28 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GoiYRoute = GoiYRouteImport.update({
   id: '/goi-y',
   path: '/goi-y',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedVietMonRoute = AuthenticatedVietMonRouteImport.update({
+  id: '/viet-mon',
+  path: '/viet-mon',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const CongThucIdRoute = CongThucIdRouteImport.update({
+  id: '/cong-thuc/$id',
+  path: '/cong-thuc/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MonSlugRoute = MonSlugRouteImport.update({
@@ -31,31 +54,53 @@ const MonSlugRoute = MonSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/goi-y': typeof GoiYRoute
+  '/viet-mon': typeof AuthenticatedVietMonRoute
+  '/cong-thuc/$id': typeof CongThucIdRoute
   '/mon/$slug': typeof MonSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/goi-y': typeof GoiYRoute
+  '/viet-mon': typeof AuthenticatedVietMonRoute
+  '/cong-thuc/$id': typeof CongThucIdRoute
   '/mon/$slug': typeof MonSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/goi-y': typeof GoiYRoute
+  '/_authenticated/viet-mon': typeof AuthenticatedVietMonRoute
+  '/cong-thuc/$id': typeof CongThucIdRoute
   '/mon/$slug': typeof MonSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/goi-y' | '/mon/$slug'
+  fullPaths:
+    '/' | '/auth' | '/goi-y' | '/viet-mon' | '/cong-thuc/$id' | '/mon/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/goi-y' | '/mon/$slug'
-  id: '__root__' | '/' | '/goi-y' | '/mon/$slug'
+  to: '/' | '/auth' | '/goi-y' | '/viet-mon' | '/cong-thuc/$id' | '/mon/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/goi-y'
+    | '/_authenticated/viet-mon'
+    | '/cong-thuc/$id'
+    | '/mon/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   GoiYRoute: typeof GoiYRoute
+  CongThucIdRoute: typeof CongThucIdRoute
   MonSlugRoute: typeof MonSlugRoute
 }
 
@@ -68,11 +113,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/goi-y': {
       id: '/goi-y'
       path: '/goi-y'
       fullPath: '/goi-y'
       preLoaderRoute: typeof GoiYRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/viet-mon': {
+      id: '/_authenticated/viet-mon'
+      path: '/viet-mon'
+      fullPath: '/viet-mon'
+      preLoaderRoute: typeof AuthenticatedVietMonRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/cong-thuc/$id': {
+      id: '/cong-thuc/$id'
+      path: '/cong-thuc/$id'
+      fullPath: '/cong-thuc/$id'
+      preLoaderRoute: typeof CongThucIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mon/$slug': {
@@ -85,9 +158,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedVietMonRoute: typeof AuthenticatedVietMonRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedVietMonRoute: AuthenticatedVietMonRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   GoiYRoute: GoiYRoute,
+  CongThucIdRoute: CongThucIdRoute,
   MonSlugRoute: MonSlugRoute,
 }
 export const routeTree = rootRouteImport
