@@ -16,7 +16,7 @@ export function SiteHeader({ children }: { children?: ReactNode }) {
     navigate({ to: "/auth", replace: true });
   }
 
-  const name = (user?.user_metadata?.full_name as string) || user?.email || "";
+  const name = (user?.user_metadata?.["full_name"] as string) || user?.email || "";
 
   return (
     <header className="sticky top-0 z-10 border-b bg-background/90 backdrop-blur">
