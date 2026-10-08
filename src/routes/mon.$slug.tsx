@@ -1,5 +1,7 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { getRecipe, recipes } from "@/data/recipes";
+import { SiteHeader } from "@/components/SiteHeader";
+import { FavoriteButton } from "@/components/FavoriteButton";
 
 export const Route = createFileRoute("/mon/$slug")({
   loader: ({ params }) => {
@@ -38,13 +40,7 @@ function RecipeDetail() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-10 border-b bg-background/90 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
-          <Link to="/" className="text-2xl font-extrabold text-primary">
-            Bếp Nhà
-          </Link>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="mx-auto max-w-4xl px-4 py-10">
         <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
@@ -55,7 +51,10 @@ function RecipeDetail() {
           🍲
         </div>
 
-        <h1 className="mt-6 text-3xl font-extrabold">{recipe.title}</h1>
+        <div className="mt-6 flex flex-wrap items-start justify-between gap-3">
+          <h1 className="text-3xl font-extrabold">{recipe.title}</h1>
+          <FavoriteButton recipeKey={`mon:${recipe.slug}`} />
+        </div>
         <p className="mt-2 text-muted-foreground">{recipe.intro}</p>
 
         <div className="mt-4 flex flex-wrap gap-3 text-sm">

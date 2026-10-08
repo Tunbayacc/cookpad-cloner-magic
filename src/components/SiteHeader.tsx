@@ -34,7 +34,10 @@ export function SiteHeader({ children }: { children?: ReactNode }) {
         {ready &&
           (user ? (
             <div className="flex items-center gap-2 text-sm">
-              <span className="hidden max-w-[10rem] truncate text-muted-foreground sm:inline">{name}</span>
+              <Link to="/yeu-thich" className="rounded-full border px-3 py-2 font-semibold hover:bg-secondary">
+                ♥ Yêu thích
+              </Link>
+              <span className="hidden max-w-[10rem] truncate text-muted-foreground lg:inline">{name}</span>
               <button onClick={signOut} className="rounded-full border px-3 py-2 hover:bg-secondary">
                 Đăng xuất
               </button>
