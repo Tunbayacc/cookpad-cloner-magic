@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteHeader } from "@/components/SiteHeader";
 import { recipeSelect, useImageUrl, type UserRecipe } from "@/lib/session";
+import { FavoriteButton } from "@/components/FavoriteButton";
 
 export const Route = createFileRoute("/cong-thuc/$id")({
   ssr: false,
@@ -53,7 +54,10 @@ function UserRecipeDetail() {
         ) : (
           <div className="mt-4 flex h-48 items-center justify-center rounded-xl bg-secondary text-7xl">🍲</div>
         )}
-        <h1 className="mt-6 text-3xl font-extrabold">{data.title}</h1>
+        <div className="mt-6 flex flex-wrap items-start justify-between gap-3">
+          <h1 className="text-3xl font-extrabold">{data.title}</h1>
+          <FavoriteButton recipeKey={`ct:${data.id}`} />
+        </div>
         {data.intro && <p className="mt-2 text-muted-foreground">{data.intro}</p>}
         <div className="mt-4 flex flex-wrap gap-3 text-sm">
           {data.time && <span className="rounded-full bg-secondary px-3 py-1">⏱ {data.time}</span>}

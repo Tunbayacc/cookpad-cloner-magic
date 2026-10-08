@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as GoiYRouteImport } from './routes/goi-y'
 import { Route as AuthenticatedVietMonRouteImport } from './routes/_authenticated/viet-mon'
+import { Route as AuthenticatedYeuThichRouteImport } from './routes/_authenticated/yeu-thich'
 import { Route as CongThucIdRouteImport } from './routes/cong-thuc.$id'
 import { Route as MonSlugRouteImport } from './routes/mon.$slug'
 
@@ -41,6 +42,11 @@ const AuthenticatedVietMonRoute = AuthenticatedVietMonRouteImport.update({
   path: '/viet-mon',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedYeuThichRoute = AuthenticatedYeuThichRouteImport.update({
+  id: '/yeu-thich',
+  path: '/yeu-thich',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const CongThucIdRoute = CongThucIdRouteImport.update({
   id: '/cong-thuc/$id',
   path: '/cong-thuc/$id',
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/goi-y': typeof GoiYRoute
   '/viet-mon': typeof AuthenticatedVietMonRoute
+  '/yeu-thich': typeof AuthenticatedYeuThichRoute
   '/cong-thuc/$id': typeof CongThucIdRoute
   '/mon/$slug': typeof MonSlugRoute
 }
@@ -65,6 +72,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/goi-y': typeof GoiYRoute
   '/viet-mon': typeof AuthenticatedVietMonRoute
+  '/yeu-thich': typeof AuthenticatedYeuThichRoute
   '/cong-thuc/$id': typeof CongThucIdRoute
   '/mon/$slug': typeof MonSlugRoute
 }
@@ -75,15 +83,29 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/goi-y': typeof GoiYRoute
   '/_authenticated/viet-mon': typeof AuthenticatedVietMonRoute
+  '/_authenticated/yeu-thich': typeof AuthenticatedYeuThichRoute
   '/cong-thuc/$id': typeof CongThucIdRoute
   '/mon/$slug': typeof MonSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/goi-y' | '/viet-mon' | '/cong-thuc/$id' | '/mon/$slug'
+    | '/'
+    | '/auth'
+    | '/goi-y'
+    | '/viet-mon'
+    | '/yeu-thich'
+    | '/cong-thuc/$id'
+    | '/mon/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/goi-y' | '/viet-mon' | '/cong-thuc/$id' | '/mon/$slug'
+  to:
+    | '/'
+    | '/auth'
+    | '/goi-y'
+    | '/viet-mon'
+    | '/yeu-thich'
+    | '/cong-thuc/$id'
+    | '/mon/$slug'
   id:
     | '__root__'
     | '/'
@@ -91,6 +113,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/goi-y'
     | '/_authenticated/viet-mon'
+    | '/_authenticated/yeu-thich'
     | '/cong-thuc/$id'
     | '/mon/$slug'
   fileRoutesById: FileRoutesById
@@ -141,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVietMonRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/yeu-thich': {
+      id: '/_authenticated/yeu-thich'
+      path: '/yeu-thich'
+      fullPath: '/yeu-thich'
+      preLoaderRoute: typeof AuthenticatedYeuThichRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/cong-thuc/$id': {
       id: '/cong-thuc/$id'
       path: '/cong-thuc/$id'
@@ -160,10 +190,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedVietMonRoute: typeof AuthenticatedVietMonRoute
+  AuthenticatedYeuThichRoute: typeof AuthenticatedYeuThichRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedVietMonRoute: AuthenticatedVietMonRoute,
+  AuthenticatedYeuThichRoute: AuthenticatedYeuThichRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
