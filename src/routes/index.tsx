@@ -1,7 +1,11 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import hero from "@/assets/hero.jpg";
 import { recipes } from "@/data/recipes";
+import { supabase } from "@/integrations/supabase/client";
+import { SiteHeader } from "@/components/SiteHeader";
+import { recipeSelect, useImageUrl, type UserRecipe } from "@/lib/session";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,30 +23,54 @@ export const Route = createFileRoute("/")({
 
 const tags = ["Thịt kho", "Canh chua", "Gà rán", "Bánh flan", "Cá kho tộ", "Bún bò", "Chay", "Ăn sáng"];
 
+function CommunityCard({ r }: { r: UserRecipe }) {
+  const img = useImageUrl(r.image_path);
+  return (
+    <Link
+      to="/cong-thuc/$id"
+      params={{ id: r.id }}
+      className="overflow-hidden rounded-xl border bg-card shadow-sm transition hover:shadow-md"
+    >
+      {img ? (
+        <img src={img} alt={r.title} className="h-40 w-full object-cover" />
+      ) : (
+        <div className="flex h-40 items-center justify-center bg-secondary text-5xl">🍲</div>
+      )}
+      <div className="p-4">
+        <h3 className="font-semibold">{r.title}</h3>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {r.author?.display_name ?? "Thành viên"}{r.time ? ` · ${r.time}` : ""}
+        </p>
+      </div>
+    </Link>
+  );
+}
+
 function Index() {
   const [q, setQ] = useState("");
   const list = recipes.filter((r) => r.title.toLowerCase().includes(q.toLowerCase()));
+  const { data: community = [] } = useQuery({
+    queryKey: ["user_recipes"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("user_recipes")
+        .select(recipeSelect)
+        .order("created_at", { ascending: false })
+        .limit(30);
+      return (data ?? []) as unknown as UserRecipe[];
+    },
+  });
+  const communityList = community.filter((r) => r.title.toLowerCase().includes(q.toLowerCase()));
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-10 border-b bg-background/90 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
-          <Link to="/" className="text-2xl font-extrabold text-primary">
-            Bếp Nhà
-          </Link>
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Tìm tên món hay nguyên liệu"
-            className="flex-1 rounded-full border bg-card px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
-          />
-          <Link to="/goi-y" className="rounded-full border border-primary px-4 py-2 text-sm font-semibold text-primary">
-            Tủ lạnh có gì?
-          </Link>
-          <button className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">
-            + Viết món mới
-          </button>
-        </div>
-      </header>
+      <SiteHeader>
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Tìm tên món hay nguyên liệu"
+          className="w-full rounded-full border bg-card px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
+        />
+      </SiteHeader>
 
       <section className="relative">
         <img src={hero} alt="Bữa cơm gia đình Việt" className="h-[360px] w-full object-cover" />
@@ -69,6 +97,9 @@ function Index() {
 
         <h2 className="mb-4 text-xl font-bold">Món mới nhất</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {communityList.map((r) => (
+            <CommunityCard key={r.id} r={r} />
+          ))}
           {list.map((r) => (
             <Link
               key={r.slug}
