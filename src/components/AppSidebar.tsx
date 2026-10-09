@@ -44,7 +44,7 @@ export function AppSidebar() {
         <SidebarTrigger />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup defaultOpen>
+        <SidebarGroup>
           <SidebarGroupLabel>Khám phá</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
