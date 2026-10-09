@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/_authenticated/viet-mon")({
   validateSearch: (s: Record<string, unknown>): { id?: string } =>
-    typeof s.id === "string" ? { id: s.id } : {},
+    typeof s["id"] === "string" ? { id: s["id"] } : {},
   head: () => ({
     meta: [
       { title: "Viết món mới — Bếp Nhà" },
