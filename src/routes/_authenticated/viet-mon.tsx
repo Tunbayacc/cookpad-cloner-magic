@@ -1,9 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteHeader } from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/_authenticated/viet-mon")({
+  validateSearch: (s: Record<string, unknown>): { id?: string } =>
+    typeof s.id === "string" ? { id: s.id } : {},
   head: () => ({
     meta: [
       { title: "Viết món mới — Bếp Nhà" },
@@ -21,7 +24,9 @@ const input = "w-full rounded-lg border bg-background px-3 py-2 text-sm outline-
 
 function NewRecipe() {
   const { user } = Route.useRouteContext();
+  const { id: editId } = Route.useSearch();
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const [title, setTitle] = useState("");
   const [intro, setIntro] = useState("");
   const [time, setTime] = useState("");
@@ -30,8 +35,32 @@ function NewRecipe() {
   const [steps, setSteps] = useState([""]);
   const [tips, setTips] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [oldImage, setOldImage] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!editId) return;
+    supabase
+      .from("user_recipes")
+      .select("*")
+      .eq("id", editId)
+      .eq("author_id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!data) return setError("Không tìm thấy món của bạn để sửa.");
+        setTitle(data.title);
+        setIntro(data.intro);
+        setTime(data.time);
+        setServings(data.servings);
+        const i = data.ingredients as { name: string; amount: string }[];
+        setIngs(i.length ? i : [{ name: "", amount: "" }]);
+        const st = data.steps as string[];
+        setSteps(st.length ? st : [""]);
+        setTips(data.tips ?? "");
+        setOldImage(data.image_path);
+      });
+  }, [editId, user.id]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -43,7 +72,7 @@ function NewRecipe() {
     }
     setSaving(true);
     setError("");
-    let image_path: string | null = null;
+    let image_path: string | null = oldImage;
     if (file) {
       const ext = file.name.split(".").pop() || "jpg";
       const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
@@ -55,26 +84,26 @@ function NewRecipe() {
       }
       image_path = path;
     }
-    const { data, error } = await supabase
-      .from("user_recipes")
-      .insert({
-        author_id: user.id,
-        title: title.trim(),
-        intro: intro.trim(),
-        time: time.trim(),
-        servings: servings.trim(),
-        ingredients,
-        steps: cleanSteps,
-        tips: tips.trim() || null,
-        image_path,
-      })
-      .select("id")
-      .single();
+    const fields = {
+      title: title.trim(),
+      intro: intro.trim(),
+      time: time.trim(),
+      servings: servings.trim(),
+      ingredients,
+      steps: cleanSteps,
+      tips: tips.trim() || null,
+      image_path,
+    };
+    const { data, error } = editId
+      ? await supabase.from("user_recipes").update(fields).eq("id", editId).select("id").single()
+      : await supabase.from("user_recipes").insert({ author_id: user.id, ...fields }).select("id").single();
     setSaving(false);
     if (error || !data) {
       setError("Lưu món không được. Vui lòng thử lại.");
       return;
     }
+    if (editId && file && oldImage) await supabase.storage.from("recipe-images").remove([oldImage]);
+    qc.invalidateQueries();
     navigate({ to: "/cong-thuc/$id", params: { id: data.id } });
   }
 

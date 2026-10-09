@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ChefHat, Heart, Home, PenLine, Refrigerator } from "lucide-react";
+import { BookOpen, ChefHat, Heart, Home, PenLine, Refrigerator } from "lucide-react";
 
 import {
   Sidebar,
@@ -19,6 +19,7 @@ const items = [
   { title: "Trang chủ", url: "/", icon: Home },
   { title: "Tủ lạnh có gì?", url: "/goi-y", icon: Refrigerator },
   { title: "Viết món mới", url: "/viet-mon", icon: PenLine },
+  { title: "Món của tôi", url: "/mon-cua-toi", icon: BookOpen },
   { title: "Món yêu thích", url: "/yeu-thich", icon: Heart },
 ];
 
