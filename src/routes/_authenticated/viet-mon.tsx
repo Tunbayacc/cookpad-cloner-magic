@@ -111,7 +111,7 @@ function NewRecipe() {
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
       <main className="mx-auto max-w-2xl px-4 py-10">
-        <h1 className="text-3xl font-extrabold">Viết món mới</h1>
+        <h1 className="text-3xl font-extrabold">{editId ? "Sửa món" : "Viết món mới"}</h1>
         <form onSubmit={submit} className="mt-6 space-y-5">
           <label className="block space-y-1">
             <span className="text-sm font-semibold">Ảnh món</span>
@@ -173,7 +173,7 @@ function NewRecipe() {
 
           {error && <p className="text-sm text-destructive">{error}</p>}
           <button disabled={saving} className="w-full rounded-full bg-primary px-4 py-3 font-semibold text-primary-foreground disabled:opacity-60">
-            {saving ? "Đang lưu..." : "Đăng món"}
+            {saving ? "Đang lưu..." : editId ? "Lưu thay đổi" : "Đăng món"}
           </button>
         </form>
       </main>
