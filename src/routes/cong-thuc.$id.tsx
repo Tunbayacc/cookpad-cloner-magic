@@ -54,16 +54,18 @@ function UserRecipeDetail() {
         ) : (
           <div className="mt-4 flex h-48 items-center justify-center rounded-xl bg-secondary text-7xl">🍲</div>
         )}
+        <div className="recipe-summary">
         <div className="mt-6 flex flex-wrap items-start justify-between gap-3">
           <h1 className="text-3xl font-extrabold">{data.title}</h1>
           <FavoriteButton recipeKey={`ct:${data.id}`} />
         </div>
         {data.intro && <p className="mt-2 text-muted-foreground">{data.intro}</p>}
         <div className="mt-4 flex flex-wrap gap-3 text-sm">
-          {data.time && <span className="rounded-full bg-secondary px-3 py-1">⏱ {data.time}</span>}
-          {data.servings && <span className="rounded-full bg-secondary px-3 py-1">🍛 {data.servings}</span>}
+          {data.time && <span className="glass-control rounded-full px-3 py-1">⏱ {data.time}</span>}
+          {data.servings && <span className="glass-control rounded-full px-3 py-1">🍛 {data.servings}</span>}
         </div>
-        <div className="mt-8 grid gap-8 md:grid-cols-[1fr_2fr]">
+        </div>
+        <div className="recipe-columns grid gap-8 md:grid-cols-[1fr_2fr]">
           <section>
             <h2 className="mb-3 text-lg font-bold">Nguyên liệu</h2>
             <ul className="space-y-2">
@@ -75,7 +77,7 @@ function UserRecipeDetail() {
               ))}
             </ul>
             {author && (
-              <div className="mt-8 rounded-xl border bg-card p-4">
+              <div className="glass-surface mt-8 rounded-lg border p-4">
                 <h3 className="font-semibold">Người đăng</h3>
                 <div className="mt-2 flex items-center gap-3">
                   {author.avatar_url ? (
@@ -102,7 +104,7 @@ function UserRecipeDetail() {
               ))}
             </ol>
             {data.tips && (
-              <div className="mt-6 rounded-xl border border-primary/30 bg-primary/5 p-4 text-sm">
+              <div className="glass-note mt-6 rounded-lg border p-4 text-sm">
                 <span className="font-semibold">💡 Mẹo nhỏ: </span>{data.tips}
               </div>
             )}
