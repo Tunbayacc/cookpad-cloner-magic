@@ -50,6 +50,7 @@ function RecipeDetail() {
 
         <img src={recipeImages[recipe.slug]} alt={recipe.title} width={512} height={512} className="mt-4 h-64 w-full rounded-lg object-cover md:h-80" />
 
+        <div className="recipe-summary">
         <div className="mt-6 flex flex-wrap items-start justify-between gap-3">
           <h1 className="text-3xl font-extrabold">{recipe.title}</h1>
           <FavoriteButton recipeKey={`mon:${recipe.slug}`} />
@@ -57,11 +58,12 @@ function RecipeDetail() {
         <p className="mt-2 text-muted-foreground">{recipe.intro}</p>
 
         <div className="mt-4 flex flex-wrap gap-3 text-sm">
-          <span className="rounded-full bg-secondary px-3 py-1">⏱ {recipe.time}</span>
-          <span className="rounded-full bg-secondary px-3 py-1">🍛 {recipe.servings}</span>
+          <span className="glass-control rounded-full px-3 py-1">⏱ {recipe.time}</span>
+          <span className="glass-control rounded-full px-3 py-1">🍛 {recipe.servings}</span>
+        </div>
         </div>
 
-        <div className="mt-8 grid gap-8 md:grid-cols-[1fr_2fr]">
+        <div className="recipe-columns grid gap-8 md:grid-cols-[1fr_2fr]">
           <section>
             <h2 className="mb-3 text-lg font-bold">Nguyên liệu</h2>
             <ul className="space-y-2">
@@ -73,7 +75,7 @@ function RecipeDetail() {
               ))}
             </ul>
 
-            <div className="mt-8 rounded-xl border bg-card p-4">
+            <div className="glass-surface mt-8 rounded-lg border p-4">
               <h3 className="font-semibold">Người đăng</h3>
               <div className="mt-2 flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
@@ -104,7 +106,7 @@ function RecipeDetail() {
             </ol>
 
             {recipe.tips && (
-              <div className="mt-6 rounded-xl border border-primary/30 bg-primary/5 p-4 text-sm">
+              <div className="glass-note mt-6 rounded-lg border p-4 text-sm">
                 <span className="font-semibold">💡 Mẹo nhỏ: </span>
                 {recipe.tips}
               </div>
@@ -120,7 +122,7 @@ function RecipeDetail() {
                 key={r.slug}
                 to="/mon/$slug"
                 params={{ slug: r.slug }}
-                className="rounded-xl border bg-card p-4 transition hover:shadow-md"
+                className="recipe-card p-4"
               >
                 <img src={recipeImages[r.slug]} alt={r.title} loading="lazy" width={512} height={512} className="mb-3 h-28 w-full rounded-lg object-cover" />
                 <p className="font-medium">{r.title}</p>
