@@ -35,11 +35,11 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="flex flex-row items-center justify-between gap-2 px-3 py-3">
+      <SidebarHeader className="flex flex-row items-center justify-between gap-2 px-4 py-5">
         {!collapsed && (
-          <Link to="/" className="flex items-center gap-2 font-extrabold text-primary">
-            <ChefHat className="h-5 w-5" />
-            <span>Bếp Nhà</span>
+          <Link to="/" className="flex items-center gap-2 text-xl font-extrabold text-primary">
+            <ChefHat className="h-7 w-7" />
+            <span>Bếp Nhà<span className="block text-xs font-medium text-muted-foreground">Góc bếp của bạn</span></span>
           </Link>
         )}
         <SidebarTrigger />

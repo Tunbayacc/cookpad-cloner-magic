@@ -2,6 +2,7 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { getRecipe, recipes } from "@/data/recipes";
 import { SiteHeader } from "@/components/SiteHeader";
 import { FavoriteButton } from "@/components/FavoriteButton";
+import { recipeImages } from "@/lib/recipe-images";
 
 export const Route = createFileRoute("/mon/$slug")({
   loader: ({ params }) => {
@@ -47,9 +48,7 @@ function RecipeDetail() {
           ← Về trang chủ
         </Link>
 
-        <div className="mt-4 flex h-48 items-center justify-center rounded-xl bg-secondary text-7xl">
-          🍲
-        </div>
+        <img src={recipeImages[recipe.slug]} alt={recipe.title} width={512} height={512} className="mt-4 h-64 w-full rounded-lg object-cover md:h-80" />
 
         <div className="mt-6 flex flex-wrap items-start justify-between gap-3">
           <h1 className="text-3xl font-extrabold">{recipe.title}</h1>
@@ -123,9 +122,7 @@ function RecipeDetail() {
                 params={{ slug: r.slug }}
                 className="rounded-xl border bg-card p-4 transition hover:shadow-md"
               >
-                <div className="mb-2 flex h-20 items-center justify-center rounded-lg bg-secondary text-3xl">
-                  🍲
-                </div>
+                <img src={recipeImages[r.slug]} alt={r.title} loading="lazy" width={512} height={512} className="mb-3 h-28 w-full rounded-lg object-cover" />
                 <p className="font-medium">{r.title}</p>
                 <p className="text-xs text-muted-foreground">
                   {r.author} · {r.time}

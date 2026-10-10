@@ -3,6 +3,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useUser } from "@/lib/session";
+import { Button } from "@/components/ui/button";
+import { Heart, LogOut, Plus, Refrigerator, ChefHat } from "lucide-react";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export function SiteHeader({ children }: { children?: ReactNode }) {
   const { user, ready } = useUser();
@@ -19,34 +22,31 @@ export function SiteHeader({ children }: { children?: ReactNode }) {
   const name = (user?.user_metadata?.["full_name"] as string) || user?.email || "";
 
   return (
-    <header className="sticky top-0 z-10 border-b bg-background/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
-        <Link to="/" className="text-2xl font-extrabold text-primary">
-          Bếp Nhà
+    <header className="glass-header sticky top-0 z-10">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-5 py-4">
+        <SidebarTrigger className="md:hidden" />
+        <Link to="/" className="flex items-center gap-2 text-lg font-extrabold text-primary md:hidden">
+          <ChefHat className="h-5 w-5" /> Bếp Nhà
         </Link>
-        <div className="flex-1">{children}</div>
-        <Link to="/goi-y" className="rounded-full border border-primary px-4 py-2 text-sm font-semibold text-primary">
-          Tủ lạnh có gì?
-        </Link>
-        <Link to="/viet-mon" className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">
-          + Viết món mới
-        </Link>
+        <div className="min-w-[160px] flex-1">{children}</div>
+        <div className="header-actions flex flex-wrap items-center gap-2">
+        <Button asChild variant="outline" className="glass-control rounded-full">
+          <Link to="/goi-y"><Refrigerator /> <span className="hidden lg:inline">Tủ lạnh có gì?</span><span className="lg:hidden">Tủ lạnh</span></Link>
+        </Button>
+        <Button asChild className="rounded-full">
+          <Link to="/viet-mon"><Plus /> Viết món mới</Link>
+        </Button>
         {ready &&
           (user ? (
             <div className="flex items-center gap-2 text-sm">
-              <Link to="/yeu-thich" className="rounded-full border px-3 py-2 font-semibold hover:bg-secondary">
-                ♥ Yêu thích
-              </Link>
+              <Button asChild variant="ghost" size="icon" className="rounded-full" title="Món yêu thích"><Link to="/yeu-thich" aria-label="Món yêu thích"><Heart /></Link></Button>
               <span className="hidden max-w-[10rem] truncate text-muted-foreground lg:inline">{name}</span>
-              <button onClick={signOut} className="rounded-full border px-3 py-2 hover:bg-secondary">
-                Đăng xuất
-              </button>
+              <Button onClick={signOut} variant="ghost" size="icon" title="Đăng xuất" aria-label="Đăng xuất"><LogOut /></Button>
             </div>
           ) : (
-            <Link to="/auth" className="rounded-full border px-4 py-2 text-sm font-semibold hover:bg-secondary">
-              Đăng nhập
-            </Link>
+            <Button asChild variant="ghost" className="rounded-full"><Link to="/auth">Đăng nhập</Link></Button>
           ))}
+        </div>
       </div>
     </header>
   );

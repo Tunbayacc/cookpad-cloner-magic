@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep liquid-glass surface, sheen, and shadow styling in the global design tokens and shared CSS classes so all application pages remain visually consistent.
+- Resolve example recipe photography through a shared slug-to-asset map, keeping media selection separate from recipe business data.
