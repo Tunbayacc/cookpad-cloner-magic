@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep liquid-glass surface, sheen, and shadow styling in the global design tokens and shared CSS classes so all application pages remain visually consistent.
+- Resolve example recipe photography through a shared slug-to-asset map, keeping media selection separate from recipe business data.
