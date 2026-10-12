@@ -43,7 +43,10 @@ export function SiteHeader({ children }: { children?: ReactNode }) {
           (user ? (
             <div className="flex items-center gap-2 text-sm">
               <Button asChild variant="ghost" size="icon" className="rounded-full" title="Món yêu thích"><Link to="/yeu-thich" aria-label="Món yêu thích"><Heart /></Link></Button>
-              <span className="hidden max-w-[10rem] truncate text-muted-foreground lg:inline">{name}</span>
+              <Avatar className="h-8 w-8 ring-1 ring-border">
+                <AvatarImage src={avatarUrl} alt={name} />
+                <AvatarFallback className="bg-muted text-xs font-semibold">{initial}</AvatarFallback>
+              </Avatar>
               <Button onClick={signOut} variant="ghost" size="icon" title="Đăng xuất" aria-label="Đăng xuất"><LogOut /></Button>
             </div>
           ) : (
