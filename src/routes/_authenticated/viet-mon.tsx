@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteHeader } from "@/components/SiteHeader";
+import { useImageUrl } from "@/lib/session";
 
 export const Route = createFileRoute("/_authenticated/viet-mon")({
   validateSearch: (s: Record<string, unknown>): { id?: string } =>
@@ -107,17 +108,58 @@ function NewRecipe() {
     navigate({ to: "/cong-thuc/$id", params: { id: data.id } });
   }
 
+  const oldImageUrl = useImageUrl(editId ? oldImage : null);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
       <main className="mx-auto max-w-2xl px-4 py-10">
         <h1 className="text-3xl font-extrabold">{editId ? "Sửa món" : "Viết món mới"}</h1>
         <form onSubmit={submit} className="mt-6 space-y-5">
-          <label className="block space-y-1">
+          <div className="space-y-1">
             <span className="text-sm font-semibold">Ảnh món</span>
-            <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="block text-sm" />
-            {file && <img src={URL.createObjectURL(file)} alt="Xem trước" className="mt-2 h-48 w-full rounded-xl object-cover" />}
-          </label>
+            <input
+              id="recipe-image"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+            />
+            {file ? (
+              <div className="relative mt-1 overflow-hidden rounded-2xl border">
+                <img src={URL.createObjectURL(file)} alt="Xem trước" className="h-52 w-full object-cover" />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFile(null);
+                    const el = document.getElementById("recipe-image") as HTMLInputElement | null;
+                    if (el) el.value = "";
+                  }}
+                  className="absolute right-2 top-2 rounded-full bg-black/60 px-3 py-1.5 text-xs font-semibold text-white hover:bg-black/80"
+                >
+                  Bỏ ảnh
+                </button>
+              </div>
+            ) : oldImageUrl ? (
+              <div className="relative mt-1 overflow-hidden rounded-2xl border">
+                <img src={oldImageUrl} alt="Ảnh hiện tại" className="h-52 w-full object-cover" />
+                <label
+                  htmlFor="recipe-image"
+                  className="absolute right-2 top-2 cursor-pointer rounded-full bg-black/60 px-3 py-1.5 text-xs font-semibold text-white hover:bg-black/80"
+                >
+                  Đổi ảnh
+                </label>
+              </div>
+            ) : (
+              <label
+                htmlFor="recipe-image"
+                className="mt-1 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-4 py-10 text-center transition-colors hover:bg-accent/40"
+              >
+                <span aria-hidden className="text-3xl">📷</span>
+                <span className="text-sm font-semibold">Bấm để chọn ảnh món</span>
+                <span className="text-xs text-muted-foreground">JPG hoặc PNG · tối đa 5 MB · nên là ảnh ngang</span>
+              </label>
+            )}
+          </div>
           <label className="block space-y-1">
             <span className="text-sm font-semibold">Tên món *</span>
             <input className={input} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="VD: Cá kho tộ" />
