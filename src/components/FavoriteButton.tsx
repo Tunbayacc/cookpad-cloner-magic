@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useUser } from "@/lib/session";
+import { Heart } from "lucide-react";
 
 /** recipeKey: "mon:<slug>" for sample recipes, "ct:<id>" for member recipes */
 export function FavoriteButton({ recipeKey }: { recipeKey: string }) {
