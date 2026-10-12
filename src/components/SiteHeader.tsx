@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useUser } from "@/lib/session";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Heart, LogOut, Plus, Refrigerator, ChefHat } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -20,6 +21,8 @@ export function SiteHeader({ children }: { children?: ReactNode }) {
   }
 
   const name = (user?.user_metadata?.["full_name"] as string) || user?.email || "";
+  const avatarUrl = (user?.user_metadata?.["avatar_url"] as string) || "";
+  const initial = name ? name.trim().charAt(0).toUpperCase() : "?";
 
   return (
     <header className="glass-header sticky top-0 z-10">
@@ -40,7 +43,10 @@ export function SiteHeader({ children }: { children?: ReactNode }) {
           (user ? (
             <div className="flex items-center gap-2 text-sm">
               <Button asChild variant="ghost" size="icon" className="rounded-full" title="Món yêu thích"><Link to="/yeu-thich" aria-label="Món yêu thích"><Heart /></Link></Button>
-              <span className="hidden max-w-[10rem] truncate text-muted-foreground lg:inline">{name}</span>
+              <Avatar className="h-8 w-8 ring-1 ring-border">
+                <AvatarImage src={avatarUrl} alt={name} />
+                <AvatarFallback className="bg-muted text-xs font-semibold">{initial}</AvatarFallback>
+              </Avatar>
               <Button onClick={signOut} variant="ghost" size="icon" title="Đăng xuất" aria-label="Đăng xuất"><LogOut /></Button>
             </div>
           ) : (
