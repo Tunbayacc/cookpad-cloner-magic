@@ -110,6 +110,8 @@
   --glass-sheen: linear-gradient(120deg, var(--glass-reflection), transparent 42%, var(--glass-reflection));
   --glass-wallpaper-opacity: 0.52;
   --glass-canvas-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 -1px 0 var(--glass-border);
+  --glass-accent: oklch(0.58 0.2 15);
+  --glass-accent-soft: oklch(0.58 0.2 15 / 18%);
   --cover-foreground: oklch(0.99 0 0);
   --cover-shade: oklch(0.18 0.035 160 / 48%);
 }
@@ -123,6 +125,8 @@
   --glass-border: oklch(1 0 0 / 18%);
   --glass-highlight: oklch(1 0 0 / 22%);
   --glass-shadow-color: oklch(0.1 0 0 / 25%);
+  --glass-accent: oklch(0.72 0.16 18);
+  --glass-accent-soft: oklch(0.72 0.16 18 / 26%);
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
   --card: oklch(0.208 0.042 265.755);
@@ -210,6 +214,10 @@
 [data-sidebar="menu-button"][data-active="true"] { background: var(--glass); color: var(--primary); box-shadow: var(--glass-shadow); border: 1px solid var(--glass-border); }
 [data-sidebar="group-label"] { margin-block: 14px 8px; }
 .glass-control { background: var(--glass); border: 1px solid var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight); backdrop-filter: blur(16px) saturate(160%); }
+.glass-heart { background: var(--glass-sheen), var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); backdrop-filter: blur(18px) saturate(165%); color: var(--glass-accent); transition: transform 180ms, box-shadow 180ms; }
+.glass-heart svg { fill: var(--glass-accent-soft); }
+.glass-heart:hover, .glass-heart:focus-visible { background: var(--glass-sheen), var(--glass); color: var(--glass-accent); transform: translateY(-1px); box-shadow: var(--glass-shadow), 0 0 0 4px var(--glass-accent-soft); }
+.glass-heart:active { transform: translateY(0); }
 .recipe-card { background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); backdrop-filter: blur(20px); border-radius: 8px; overflow: hidden; transition: transform 200ms, box-shadow 200ms; }
 .recipe-card:hover { transform: translateY(-4px); }
 .home-page { background: transparent; }
