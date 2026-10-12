@@ -21,6 +21,8 @@ export function SiteHeader({ children }: { children?: ReactNode }) {
   }
 
   const name = (user?.user_metadata?.["full_name"] as string) || user?.email || "";
+  const avatarUrl = (user?.user_metadata?.["avatar_url"] as string) || "";
+  const initial = name ? name.trim().charAt(0).toUpperCase() : "?";
 
   return (
     <header className="glass-header sticky top-0 z-10">
