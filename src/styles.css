@@ -104,15 +104,18 @@
   --glass-highlight: oklch(1 0 0 / 90%);
   --glass-shadow-color: oklch(0.3 0.045 164 / 9%);
   --glass-shadow: 0 8px 30px var(--glass-shadow-color), inset 0 1px 0 var(--glass-highlight);
-  --glass-canvas: oklch(0.99 0.005 165 / 64%);
-  --glass-wash: oklch(0.97 0.012 165 / 38%);
-  --glass-sheen: linear-gradient(120deg, var(--glass-highlight), transparent 42%, var(--glass));
-  --glass-wallpaper-opacity: 0.36;
+  --glass-canvas: oklch(0.99 0.005 165 / 58%);
+  --glass-wash: oklch(0.97 0.012 165 / 12%);
+  --glass-reflection: oklch(1 0 0 / 28%);
+  --glass-sheen: linear-gradient(120deg, var(--glass-reflection), transparent 42%, var(--glass-reflection));
+  --glass-wallpaper-opacity: 0.52;
+  --glass-canvas-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 -1px 0 var(--glass-border);
   --cover-foreground: oklch(0.99 0 0);
   --cover-shade: oklch(0.18 0.035 160 / 48%);
 }
 
 .dark {
+  --glass-reflection: oklch(1 0 0 / 7%);
   --glass-canvas: oklch(0.2 0.02 165 / 76%);
   --glass-wash: oklch(0.16 0.02 165 / 60%);
   --glass-wallpaper-opacity: 0.28;
@@ -175,18 +178,19 @@
   width: 100%;
   max-width: none;
   padding-inline: max(24px, calc((100% - var(--content-width)) / 2));
-  background: var(--glass-canvas);
+  background: var(--glass-sheen), var(--glass-canvas);
   border-block: 1px solid var(--glass-border);
-  backdrop-filter: blur(18px) saturate(145%);
+  box-shadow: var(--glass-canvas-shadow);
+  backdrop-filter: blur(28px) saturate(155%);
 }
 .glass-page main.max-w-4xl { --content-width: 56rem; }
 .glass-page main.max-w-3xl { --content-width: 48rem; }
 .glass-page main.max-w-2xl { --content-width: 42rem; }
-.glass-page footer, .glass-page header { background: var(--glass); border-color: var(--glass-border); backdrop-filter: blur(24px) saturate(160%); }
+.glass-page footer, .glass-page header { background: var(--glass-sheen), var(--glass); border-color: var(--glass-border); backdrop-filter: blur(24px) saturate(160%); box-shadow: var(--glass-canvas-shadow); }
 .glass-page :is(input:not([type="file"]), textarea) { background-color: var(--glass); border-color: var(--glass-border); box-shadow: inset 0 1px 0 var(--glass-highlight); }
 .glass-page .glass-control input { background: transparent; box-shadow: none; }
 .glass-page :is(button, a).bg-primary { box-shadow: inset 0 1px 0 var(--glass-highlight), 0 4px 12px var(--glass-shadow-color); }
-.recipe-summary { padding-block: 24px; border-bottom: 1px solid var(--glass-border); }
+.recipe-summary { padding-block: 24px; border-bottom: 1px solid var(--glass-border); background: var(--glass-sheen); }
 .recipe-summary > div:first-child { margin-top: 0; }
 .recipe-columns { padding-block: 24px; border-bottom: 1px solid var(--glass-border); }
 .recipe-columns li { border-color: var(--glass-border); }
