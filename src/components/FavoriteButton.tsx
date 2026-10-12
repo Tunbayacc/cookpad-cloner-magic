@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useUser } from "@/lib/session";
+import { Heart } from "lucide-react";
 
 /** recipeKey: "mon:<slug>" for sample recipes, "ct:<id>" for member recipes */
 export function FavoriteButton({ recipeKey }: { recipeKey: string }) {
@@ -33,11 +34,12 @@ export function FavoriteButton({ recipeKey }: { recipeKey: string }) {
     <button
       onClick={toggle}
       disabled={busy}
-      className={`rounded-full border px-4 py-2 text-sm font-semibold transition disabled:opacity-60 ${
-        saved ? "border-primary bg-primary text-primary-foreground" : "border-primary text-primary hover:bg-primary/10"
+      className={`glass-heart inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition disabled:opacity-60 ${
+        saved ? "glass-heart-on" : ""
       }`}
     >
-      {saved ? "♥ Đã yêu thích" : "♡ Yêu thích"}
+      <Heart className={saved ? "h-4 w-4 fill-current" : "h-4 w-4"} />
+      {saved ? "Đã yêu thích" : "Yêu thích"}
     </button>
   );
 }

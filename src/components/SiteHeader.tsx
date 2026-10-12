@@ -42,7 +42,7 @@ export function SiteHeader({ children }: { children?: ReactNode }) {
         {ready &&
           (user ? (
             <div className="flex items-center gap-2 text-sm">
-              <Button asChild variant="ghost" size="icon" className="rounded-full" title="Món yêu thích"><Link to="/yeu-thich" aria-label="Món yêu thích"><Heart /></Link></Button>
+              <Button asChild variant="outline" size="icon" className="glass-heart rounded-full" title="Món yêu thích"><Link to="/yeu-thich" aria-label="Món yêu thích"><Heart /></Link></Button>
               <Avatar className="h-8 w-8 ring-1 ring-border">
                 <AvatarImage src={avatarUrl} alt={name} />
                 <AvatarFallback className="bg-muted text-xs font-semibold">{initial}</AvatarFallback>
