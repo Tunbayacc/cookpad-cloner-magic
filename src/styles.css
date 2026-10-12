@@ -218,6 +218,8 @@
 .glass-heart svg { fill: var(--glass-accent-soft); }
 .glass-heart:hover, .glass-heart:focus-visible { background: var(--glass-sheen), var(--glass); color: var(--glass-accent); transform: translateY(-1px); box-shadow: var(--glass-shadow), 0 0 0 4px var(--glass-accent-soft); }
 .glass-heart:active { transform: translateY(0); }
+.glass-heart-on { color: var(--glass-accent); background: var(--glass-accent-soft), var(--glass-sheen), var(--glass); box-shadow: var(--glass-shadow), 0 0 0 3px var(--glass-accent-soft); }
+.glass-heart-on svg { fill: var(--glass-accent); }
 .recipe-card { background: var(--glass); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); backdrop-filter: blur(20px); border-radius: 8px; overflow: hidden; transition: transform 200ms, box-shadow 200ms; }
 .recipe-card:hover { transform: translateY(-4px); }
 .home-page { background: transparent; }

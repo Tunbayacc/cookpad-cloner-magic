@@ -33,11 +33,12 @@ export function FavoriteButton({ recipeKey }: { recipeKey: string }) {
     <button
       onClick={toggle}
       disabled={busy}
-      className={`rounded-full border px-4 py-2 text-sm font-semibold transition disabled:opacity-60 ${
-        saved ? "border-primary bg-primary text-primary-foreground" : "border-primary text-primary hover:bg-primary/10"
+      className={`glass-heart inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition disabled:opacity-60 ${
+        saved ? "glass-heart-on" : ""
       }`}
     >
-      {saved ? "♥ Đã yêu thích" : "♡ Yêu thích"}
+      <Heart className={saved ? "h-4 w-4 fill-current" : "h-4 w-4"} />
+      {saved ? "Đã yêu thích" : "Yêu thích"}
     </button>
   );
 }
