@@ -44,3 +44,43 @@ export function useImageUrl(path: string | null) {
   }, [path]);
   return url;
 }
+
+export type Profile = {
+  id: string;
+  display_name: string;
+  avatar_url: string | null;
+  bio: string | null;
+};
+
+export function useProfile(userId: string | undefined) {
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    if (!userId) return;
+    supabase
+      .from("profiles")
+      .select("id,display_name,avatar_url,bio")
+      .eq("id", userId)
+      .maybeSingle()
+      .then(({ data }) => {
+        setProfile(data ?? null);
+        setLoaded(true);
+      });
+  }, [userId]);
+  return { profile, loaded };
+}
+
+export function useAvatarUrl(path: string | null | undefined) {
+  const [url, setUrl] = useState<string | null>(null);
+  useEffect(() => {
+    if (!path) {
+      setUrl(null);
+      return;
+    }
+    supabase.storage
+      .from("avatars")
+      .createSignedUrl(path, 3600)
+      .then(({ data }) => setUrl(data?.signedUrl ?? null));
+  }, [path]);
+  return url;
+}
